@@ -227,6 +227,7 @@ export default {
     // 搜索框 搜索功能
     deptsearch () {
       console.log("dept 搜索。")
+      console.log("搜索")
       //搜索出的数据
     },
     filterNode (value, data) {
