@@ -243,6 +243,7 @@
 
       </el-table>
     </div>
+    <!-- 分页开始 -->
     <template>
       <div class="pagination-container">
         <el-pagination @size-change="handleSizeChange"
@@ -256,6 +257,7 @@
         </el-pagination>
       </div>
     </template>
+    <!-- 分页结束 -->
   </div>
 </template>
 <script>
@@ -715,7 +717,14 @@ div /deep/ .el-table th.el-table__cell > .cell {
 div /deep/ .el-table__row > td > .cell {
   text-align: center !important;
 }
-
+/* 多选框左侧对齐 */
+div /deep/ .el-table__row > td:nth-of-type(1) > .cell {
+  text-align: left !important;
+}
+/* 多选框左侧对齐 */
+div /deep/ .has-gutter .el-table__cell:nth-of-type(1) .cell {
+  text-align: left !important;
+}
 div /deep/ .el-button [class*="el-icon-"] + span {
   margin-left: 0 !important;
 }

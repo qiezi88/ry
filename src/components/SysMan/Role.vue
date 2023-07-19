@@ -179,7 +179,7 @@
       <!-- table表单区域 -->
       <div class="el-table">
         <el-table ref="userTable"
-                  :data="roleinfo"
+                  :data="roleinfo.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)"
                   tooltip-effect="dark"
                   style="width: 100%"
                   @selection-change="handleSelectionChange">
@@ -301,57 +301,19 @@
           </el-table-column>
         </el-table>
       </div>
+      <!-- 分页开始 -->
       <div class="pagination-container">
-        <div data-v-cf1facd6=""
-             class="el-pagination is-background"><span class="el-pagination__total">共 2 条</span><span class="el-pagination__sizes">
-            <div class="el-select el-select--mini">
-              <div class="el-input el-input--mini el-input--suffix pagecolor"><input type="text"
-                       readonly="readonly"
-                       autocomplete="off"
-                       placeholder="10条/页"
-                       class="el-input__inner"><span class="el-input__suffix"><span class="el-input__suffix-inner"><i class="el-select__caret el-input__icon el-icon-arrow-up"></i><!----><!----><!----><!----><!----></span><!----></span><!----><!----></div>
-              <div class="el-select-dropdown el-popper"
-                   style="display: none; min-width: 110px;">
-                <div class="el-scrollbar"
-                     style="">
-                  <div class="el-select-dropdown__wrap el-scrollbar__wrap"
-                       style="margin-bottom: -6px; margin-right: -6px;">
-                    <ul class="el-scrollbar__view el-select-dropdown__list">
-                      <li class="el-select-dropdown__item selected"><span>10条/页</span></li>
-                      <li class="el-select-dropdown__item"><span>20条/页</span></li>
-                      <li class="el-select-dropdown__item"><span>30条/页</span></li>
-                      <li class="el-select-dropdown__item"><span>50条/页</span></li>
-                    </ul>
-                  </div>
-                  <div class="el-scrollbar__bar is-horizontal">
-                    <div class="el-scrollbar__thumb"
-                         style="transform: translateX(0%);"></div>
-                  </div>
-                  <div class="el-scrollbar__bar is-vertical">
-                    <div class="el-scrollbar__thumb"
-                         style="transform: translateY(0%);"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </span><button type="button"
-                  disabled="disabled"
-                  class="btn-prev"><i class="el-icon el-icon-arrow-left"></i></button>
-          <ul class="el-pager">
-            <li class="number active">1</li>
-          </ul><button type="button"
-                  disabled="disabled"
-                  class="btn-next"><i class="el-icon el-icon-arrow-right"></i></button><span class="el-pagination__jump">
-            前往<div class="el-input el-input--medium el-pagination__editor is-in-pagination">
-              <input type="number"
-                     autocomplete="off"
-                     min="1"
-                     max="1"
-                     class="el-input__inner"
-                     placeholder="1">
-            </div>页</span>
-        </div>
+        <el-pagination @size-change="handleSizeChange"
+                       @current-change="handleCurrentChange"
+                       background
+                       :current-page="currentPage"
+                       :page-sizes="[10, 20, 30, 50]"
+                       :page-size="pageSize"
+                       layout="total, sizes, prev, pager, next, jumper"
+                       :total="roleinfo.length">
+        </el-pagination>
       </div>
+      <!-- 分页结束 -->
     </div>
   </div>
 </template>
@@ -360,6 +322,9 @@ export default {
   name: 'Role',
   data () {
     return {
+      //分页数据相关
+      currentPage: 1,
+      pageSize: 10,
       checkList: ['父子联动'],
       // 备份数据
       originalData: '',
@@ -584,9 +549,20 @@ export default {
           message: '已取消删除'
         });
       });
-    }, moreRow (index, rows) {
+    },
+    moreRow (index, rows) {
       console.log("角色管理更多功能未完善...")
-    }
+    },
+    //当前页数改变
+    handleCurrentChange (val) {
+      this.currentPage = val
+      // console.log("当前页：" + this.currentPage)
+    },
+    //页面展示的数据发生改变
+    handleSizeChange (val) {
+      this.pageSize = val
+      // console.log("每页的数据：" + this.pageSize)
+    },
   }
 }
 </script>

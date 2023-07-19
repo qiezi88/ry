@@ -261,7 +261,7 @@
         <!-- table表单区域 -->
         <div class="el-table">
           <el-table ref="userTable"
-                    :data="userinfo"
+                    :data="userinfo.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)"
                     tooltip-effect="dark"
                     style="width: 100%"
                     @selection-change="handleSelectionChange">
@@ -424,6 +424,18 @@
           </el-table>
         </div>
         <!-- 分页 -->
+        <div class="pagination-container">
+          <el-pagination @size-change="handleSizeChange"
+                         @current-change="handleCurrentChange"
+                         background
+                         :current-page="currentPage"
+                         :page-sizes="[10, 20, 30, 50]"
+                         :page-size="pageSize"
+                         layout="total, sizes, prev, pager, next, jumper"
+                         :total="userinfo.length">
+          </el-pagination>
+        </div>
+        <!-- 分页结束 -->
       </div>
     </div>
   </div>
@@ -441,6 +453,9 @@ export default {
       }
     };
     return {
+      //分页数据相关
+      currentPage: 1,
+      pageSize: 10,
       // 备份数据
       originalData: [],
       serchshow: true,
@@ -751,6 +766,16 @@ export default {
     },
     moreRow (index, rows) {
       console.log("用户管理更多功能未完善...")
+    },
+    //当前页数改变
+    handleCurrentChange (val) {
+      this.currentPage = val
+      // console.log("当前页：" + this.currentPage)
+    },
+    //页面展示的数据发生改变
+    handleSizeChange (val) {
+      this.pageSize = val
+      // console.log("每页的数据：" + this.pageSize)
     },
   }
 };
